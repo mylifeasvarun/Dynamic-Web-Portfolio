@@ -9,7 +9,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -19,4 +19,60 @@
 ::-webkit-scrollbar-thumb {
   background: #013f3c7f;
   border-radius: 10px;
+}
+
+i {
+  cursor: pointer;
+}
+
+i:hover {
+  color: white;
+}
+
+.s {
+  animation: s 1s infinite;
+}
+
+@keyframes s {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.v {
+  animation: v 1s infinite;
+}
+
+@keyframes v {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.g {
+  animation: g 1s infinite;
+}
+
+@keyframes g {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }

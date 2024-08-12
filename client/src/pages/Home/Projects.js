@@ -29,13 +29,19 @@ function Projects() {
           ))}
         </div>
 
-        <div className="flex items-center justify-center gap-10 sm:flex-col">
-          <img src="https://picsum.photos/200" alt="" className="h-60 w-72 rounded" />
+        <div className="flex gap-10 items-center w-3/4 sm:flex-col sm:w-full">
+          <img
+            src="https://picsum.photos/200"
+            alt=""
+            className="h-60 w-72 rounded"
+          />
           <div className="flex flex-col gap-5 w-3/4">
             <h1 className="text-xl text-secondary sm:text-center">
               {projects[selectedindex].title}
             </h1>
-            <p className="text-white text-center">{projects[selectedindex].description}</p>
+            <p className="text-white sm:text-center">
+              {projects[selectedindex].description}
+            </p>
           </div>
         </div>
       </div>
