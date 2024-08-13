@@ -1,15 +1,15 @@
-const mangoose = require("mangoose");
+const mongoose = require("mongoose");
 
-mangoose.connect(process.env.mango_url);
+mongoose.connect(process.env.MONGO_URL);
 
-const connection = mangoose.connection;
+const connection = mongoose.connection;
 
-connection.on("error", () => {
-  console.log("Error Connecting to DB");
+connection.on("error", (err) => {
+  console.error("Error Connecting to DB:", err);
 });
 
-console.log("connected", () => {
+connection.once("open", () => {
   console.log("Connected to DB");
 });
 
-modeule.exports= mongoose;
+module.exports = mongoose;
