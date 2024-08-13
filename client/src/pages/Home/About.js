@@ -1,8 +1,11 @@
 import React from "react";
 import SectionTitle from "../../components/SectionTitle";
+import { useSelector } from "react-redux";
 
 function About() {
-  const skills = ["React", "Angular", "JavaScript", "REST API"];
+  const { portfolioData } = useSelector((state) => state.root);
+  const { about } = portfolioData;
+  const { skills, lottieURL, description1, description2 } = about;
   return (
     <div className="bg-primary py-10">
       <SectionTitle title="About" />
@@ -10,7 +13,7 @@ function About() {
       <div className="flex items-center sm:flex-col">
         <div className="h-[50vh] w-1/2 sm:w-full">
           <dotlottie-player
-            src="https://lottie.host/1d47d974-55af-4cc3-9b18-72578ac1f71c/LiLo9riBba.json"
+            src={lottieURL}
             background="transparent"
             speed="1"
             loop
@@ -18,22 +21,8 @@ function About() {
           ></dotlottie-player>
         </div>
         <div className="flex flex-col gap-5 w-1/2 sm:w-full">
-          <p className="text-white">
-            Lorem ipsum odor amet, consectetuer adipiscing elit. Libero ultrices
-            curae pulvinar mattis pulvinar mi sem. Inceptos nostra libero montes
-            ultricies id euismod velit tortor. Tempus dictumst nibh dui id sed
-            lectus interdum tempor. Et placerat ipsum consectetur scelerisque
-            egestas. Elementum nulla per quis nullam dui cubilia. Finibus vitae
-            vulputate mollis nam, mollis natoque sagittis. Dignissim scelerisque
-            consequat; dignissim dolor ex tristique. Felis maecenas mattis non
-            hendrerit ipsum etiam et nulla.
-          </p>
-          <p className="text-white">
-            Et placerat ipsum consectetur scelerisque egestas. Elementum nulla
-            per quis nullam dui cubilia. Dignissim scelerisque consequat;
-            dignissim dolor ex tristique. Felis maecenas mattis non hendrerit
-            ipsum etiam et nulla.
-          </p>
+          <p className="text-white">{description1 || ""}</p>
+          <p className="text-white">{description2 || ""}</p>
         </div>
       </div>
 
