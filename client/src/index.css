@@ -76,3 +76,20 @@ i:hover {
     opacity: 1;
   }
 }
+
+input,
+textarea {
+  height: 40px;
+  border: 1px solid rgba(128, 128, 128, 0.415);
+  width: 100%;
+  padding-left: 10px;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid rgb(44, 43, 43);
+}
+
+textarea {
+  height: 100px;
+}

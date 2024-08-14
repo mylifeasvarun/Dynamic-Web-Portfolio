@@ -4,7 +4,12 @@ import axios from "axios";
 import Home from "./pages/Home/Home.js";
 import Loader from "./components/Loader.js";
 import { useDispatch, useSelector } from "react-redux";
-import { HideLoading, SetPortfolioData, ShowLoading } from "./redux/rootSlice.js";
+import {
+  HideLoading,
+  SetPortfolioData,
+  ShowLoading,
+} from "./redux/rootSlice.js";
+import Admin from "./pages/Admin/Admin.js";
 
 function App() {
   const { loading, portfolioData } = useSelector((state) => state.root);
@@ -22,7 +27,7 @@ function App() {
   };
 
   useEffect(() => {
-    if(!portfolioData){
+    if (!portfolioData) {
       getportfolioData();
     }
   }, [portfolioData]);
@@ -32,6 +37,7 @@ function App() {
       {loading ? <Loader /> : null}
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/admin" element={<Admin />}></Route>
       </Routes>
     </BrowserRouter>
   );
