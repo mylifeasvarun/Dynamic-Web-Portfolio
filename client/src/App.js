@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   HideLoading,
   SetPortfolioData,
-  ShowLoading, ReloadData
+  ShowLoading,
+  ReloadData,
 } from "./redux/rootSlice.js";
 import Admin from "./pages/Admin/Admin.js";
+import AdminLogin from "./pages/Admin/AdminLogin.js";
 
 function App() {
   const { loading, portfolioData, reloadData } = useSelector(
@@ -47,6 +49,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/admin" element={<Admin />}></Route>
+        <Route path="/admin-login" element={<AdminLogin />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -7,6 +7,8 @@ const {
   Experience,
 } = require("../models/portfolioModel");
 
+const User = require("../models/userModel");
+
 //Gets All portfolio Data
 router.get("/get-portfolio-data", async (req, res) => {
   try {
@@ -110,6 +112,98 @@ router.post("/delete-experience", async (req, res) => {
     });
   } catch (error) {
     res.status(500).message(error);
+  }
+});
+
+//Add Project
+router.post("/add-project", async (req, res) => {
+  try {
+    const project = new Project(req.body);
+    await project.save();
+    res.status(200).send({
+      data: project,
+      success: true,
+      message: "Project Added Successfully",
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//Update Project
+router.post("/update-project", async (req, res) => {
+  try {
+    const project = await Project.findOneAndUpdate(
+      { _id: req.body._id },
+      req.body,
+      { new: true }
+    );
+    res.status(200).send({
+      data: project,
+      success: true,
+      message: "Project Updated Successfully",
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//Delete Project
+router.post("/delete-project", async (req, res) => {
+  try {
+    const project = await Project.findOneAndDelete({
+      _id: req.body._id,
+    });
+    res.status(200).send({
+      data: Project,
+      success: true,
+      message: "Project Deleted Successfully",
+    });
+  } catch (error) {
+    res.status(500).message(error);
+  }
+});
+
+router.post("/update-contact", async (req, res) => {
+  try {
+    const contact = await Contact.findOneAndUpdate(
+      { _id: req.body._id },
+      req.body,
+      { new: true }
+    );
+    res.status(200).send({
+      data: contact,
+      success: true,
+      message: "Contact Updated Successfully",
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//Admin Login
+router.post("/admin-login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      username: req.body.username,
+      password: req.body.password,
+    });
+    user.password = "";
+    if (user) {
+      res.status(200).send({
+        data: user,
+        success: true,
+        message: "login Successfull",
+      });
+    } else {
+      res.status(200).send({
+        data: user,
+        success: false,
+        message: "Invalid Username or Password",
+      });
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 

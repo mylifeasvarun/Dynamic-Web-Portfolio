@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 function Experiences() {
   const { portfolioData } = useSelector((state) => state.root);
-  const {experiences}=portfolioData;
+  const { experiences } = portfolioData;
 
   const [selectedindex, setselectedindex] = React.useState(0);
   return (
@@ -40,11 +40,7 @@ function Experiences() {
           <h1 className="text-xl text-tertiary">
             {experiences[selectedindex].company}
           </h1>
-          <p className="text-white">
-            Lorem ipsum odor amet, consectetuer adipiscing elit. Libero ultrices
-            curae pulvinar mattis pulvinar mi sem. Inceptos nostra libero montes
-            ultricies id euismod velit tortor.
-          </p>
+          <p className="text-white">{experiences[selectedindex].description}</p>
         </div>
       </div>
     </div>
