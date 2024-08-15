@@ -11,12 +11,15 @@ function Contact() {
       <div className="flex sm:flex-col items-center justify-between">
         <div className="flex flex-col gap-3">
           <p className="text-white">{"{"}</p>
-          {Object.keys(contact).map((key) => (
-            <p>
-              <span className="text-white">{key} : </span>
-              <span className="text-white">{contact[key]}</span>
-            </p>
-          ))}
+          {Object.keys(contact).map(
+            (key) =>
+              key !== "_id" && (
+                <p>
+                  <span className="text-white">{key} : </span>
+                  <span className="text-white">{contact[key]}</span>
+                </p>
+              )
+          )}
           <p className="text-white">{"}"}</p>
         </div>
         <div className="h-[400px]">

@@ -4,25 +4,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { HideLoading, ReloadData, ShowLoading } from "../../redux/rootSlice";
 import axios from "axios";
 
-function AdminExperiences() {
+function AdminProjects() {
   const { portfolioData } = useSelector((state) => state.root);
   const dispatch = useDispatch();
-  const { experiences } = portfolioData;
+  const { projects } = portfolioData;
   const [showAddEditModal, setshowAddEditModal] = React.useState(false);
   const [selectedItemForEdit, setSelectedItemForEdit] = React.useState(null);
   const [type, setType] = React.useState("add");
 
   const onFinish = async (values) => {
     try {
+      const temptechnologies = values.technologies.split(",");
+      values.technologies = temptechnologies;
       dispatch(ShowLoading());
       let response;
       if (selectedItemForEdit) {
-        response = await axios.post("api/portfolio/update-experience", {
+        response = await axios.post("api/portfolio/update-project", {
           ...values,
           _id: selectedItemForEdit._id,
         });
       } else {
-        response = await axios.post("/api/portfolio/add-experience", values);
+        response = await axios.post("/api/portfolio/add-project", values);
       }
 
       dispatch(HideLoading());
@@ -44,7 +46,7 @@ function AdminExperiences() {
   const onDelete = async (item) => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/portfolio/delete-experience", {
+      const response = await axios.post("/api/portfolio/delete-project", {
         _id: item._id,
       });
       dispatch(HideLoading());
@@ -71,22 +73,22 @@ function AdminExperiences() {
             setshowAddEditModal(true);
           }}
         >
-          Add Experience
+          Add Project
         </button>
       </div>
       <div className="grid grid-cols-4 gap-5 sm:grid-cols-1">
-        {experiences.map((experience) => (
-          <div className="shadow border p-5 border-gray-300">
-            <h1 className="text-primary text-xl">{experience.period}</h1>
+        {projects.map((project) => (
+          <div className="shadow border p-5 border-gray-300 flex flex-col items-center">
+            <img src={project.image} alt="" className="h-30 w-40 rounded" />
             <hr />
-            <h1>Role: {experience.title}</h1>
-            <h1>Company: {experience.company}</h1>
-            <h1>{experience.description}</h1>
+            <h1 className="text-3xl my-3">{project.title}</h1>
+            <h1 className="text-center">{project.technologies}</h1>
+            <h1 className="text-center">{project.description}</h1>
             <div className="flex justify-start gap-2 mt-2">
               <button
                 className="px-2 py-2 bg-primary text-white rounded"
                 onClick={() => {
-                  setSelectedItemForEdit(experience);
+                  setSelectedItemForEdit(project);
                   setshowAddEditModal(true);
                   setType("edit");
                 }}
@@ -96,7 +98,7 @@ function AdminExperiences() {
               <button
                 className="px-2 py-2 bg-secondary text-white rounded"
                 onClick={() => {
-                  onDelete(experience);
+                  onDelete(project);
                 }}
               >
                 Delete
@@ -109,7 +111,7 @@ function AdminExperiences() {
       {(type === "add" || selectedItemForEdit) && (
         <Modal
           open={showAddEditModal}
-          title={selectedItemForEdit ? "Edit Experience" : "Add Experience"}
+          title={selectedItemForEdit ? "Edit project" : "Add project"}
           footer={null}
           onCancel={() => {
             setshowAddEditModal(false);
@@ -119,20 +121,27 @@ function AdminExperiences() {
           <Form
             layout="vertical"
             onFinish={onFinish}
-            initialValues={selectedItemForEdit}
+            initialValues={{
+              ...selectedItemForEdit,
+              technologies: selectedItemForEdit?.technologies.join(" , "),
+            }}
           >
-            <Form.Item name="period" label="Period">
-              <input placeholder="Period"></input>
-            </Form.Item>
             <Form.Item name="title" label="Title">
               <input placeholder="Title"></input>
             </Form.Item>
-            <Form.Item name="company" label="Company">
-              <input placeholder="Company"></input>
+            <Form.Item name="image" label="Image URL">
+              <input placeholder="Image URL"></input>
+            </Form.Item>
+            <Form.Item name="technologies" label="Technologies">
+              <input placeholder="Technologies"></input>
+            </Form.Item>
+            <Form.Item name="link" label="Demo Link">
+              <input placeholder="Link"></input>
             </Form.Item>
             <Form.Item name="description" label="Description">
-              <input placeholder="Description"></input>
+              <textarea placeholder="Description"></textarea>
             </Form.Item>
+
             <div className="flex justify-end">
               <button
                 className="border-primary text-primary px-5 py-2"
@@ -154,4 +163,4 @@ function AdminExperiences() {
   );
 }
 
-export default AdminExperiences;
+export default AdminProjects;
