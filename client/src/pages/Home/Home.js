@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../../components/Header";
 import Intro from "./Intro";
 import About from "./About";
+import Educations from "./Educations";
 import Experiences from "./Experiences";
 import Projects from "./Projects";
 import Contact from "./Contact";
@@ -18,6 +19,7 @@ function Home() {
         <div className="bg-primary px-40 sm:px-5">
           <Intro />
           <About />
+          <Educations />
           <Experiences />
           <Projects />
           <Contact />
