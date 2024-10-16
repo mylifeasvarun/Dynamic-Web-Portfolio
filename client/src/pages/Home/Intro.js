@@ -9,7 +9,7 @@ function Intro() {
     <div className="h-[70vh] bg-primary flex flex-col items-start justify-center gap-8">
       <h1 className="text-2xl text-white font-semibold">{welcomeText || ""}</h1>
       <h1 className="text-6xl sm:text-3xl text-secondary font-semibold">
-        {firstName || ""}
+        {firstName + " " || ""}
         {lastName || ""}
       </h1>
       <h1 className="text-5xl sm:text-3xl text-white font-semibold">
@@ -18,7 +18,7 @@ function Intro() {
       <p className="text-tertiary">{description || ""}</p>
       <button className="border-2 border-tertiary text-tertiary px-10 py-3 rounded">
         Get Started
-      </button>
+      </button> 
     </div>
   );
 }

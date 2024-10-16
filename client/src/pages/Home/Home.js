@@ -16,7 +16,7 @@ function Home() {
     <div>
       <Header />
       {portfolioData && (
-        <div className="bg-primary px-40 sm:px-5">
+        <div className="bg-primary px-24 sm:px-5">
           <Intro />
           <About />
           <Educations />
@@ -24,7 +24,7 @@ function Home() {
           <Projects />
           <Contact />
           <Footer />
-          <Sidebar />
+          <Sidebar /> 
         </div>
       )}
     </div>

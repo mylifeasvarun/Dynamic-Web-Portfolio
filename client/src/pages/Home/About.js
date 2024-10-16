@@ -10,7 +10,7 @@ function About() {
     <div className="bg-primary py-10">
       <SectionTitle title="About" />
 
-      <div className="flex items-center sm:flex-col">
+      <div className="flex items-center gap-10 sm:flex-col">
         <div className="h-[50vh] w-1/2 sm:w-full">
           <dotlottie-player
             src={lottieURL}
@@ -30,7 +30,7 @@ function About() {
         <h1 className="text-tertiary text-xl">
           Here are few technologies I've been working with recently:
         </h1>
-        <div className="flex flex-wrap gap-10 mt-5">
+        <div className="flex flex-wrap gap-5 mt-5">
           {skills.map((skill, index) => (
             <div className="border border-tertiary py-3 px-10">
               <h1 className="text-tertiary">{skill}</h1>

@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-require("dotenv").config();
-const dbconfig = require("./config/dbConfig");
 
+const dbconfig = require("./config/dbConfig");
+console.log("MONGO_URL:", process.env.MONGO_URL);
 const portfolioRoute = require("./routes/portfolioRoutes");
 
 app.use(express.json());
