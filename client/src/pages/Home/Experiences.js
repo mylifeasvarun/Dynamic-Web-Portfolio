@@ -34,7 +34,7 @@ function Experiences() {
         </div>
 
         <div className="flex flex-col gap-5 w-3/4 sm:items-center">
-          <h1 className="text-xl text-secondary">
+          <h1 className="text-2xl font-bold text-secondary">
             {experiences[selectedindex].title}
           </h1>
           <h1 className="text-xl text-tertiary">
