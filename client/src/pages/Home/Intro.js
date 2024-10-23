@@ -5,6 +5,14 @@ function Intro() {
   const { portfolioData } = useSelector((state) => state.root);
   const { intro } = portfolioData;
   const { firstName, lastName, welcomeText, description, caption } = intro;
+
+  const handleGetStarted = () => {
+    const aboutSection = document.getElementById("about-section");
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="h-[70vh] bg-primary flex flex-col items-start justify-center gap-8">
       <h1 className="text-2xl text-white font-semibold">{welcomeText || ""}</h1>
@@ -16,9 +24,12 @@ function Intro() {
         {caption || ""}
       </h1>
       <p className="text-tertiary">{description || ""}</p>
-      <button className="border-2 border-tertiary text-tertiary px-10 py-3 rounded">
+      <button
+        className="border-2 border-tertiary text-tertiary px-10 py-3 rounded"
+        onClick={handleGetStarted}
+      >
         Get Started
-      </button> 
+      </button>
     </div>
   );
 }

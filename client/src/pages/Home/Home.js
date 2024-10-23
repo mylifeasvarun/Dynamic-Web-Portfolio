@@ -18,13 +18,15 @@ function Home() {
       {portfolioData && (
         <div className="bg-primary px-24 sm:px-5">
           <Intro />
-          <About />
+          <div id="about-section">
+            <About />
+          </div>
           <Educations />
           <Experiences />
           <Projects />
           <Contact />
           <Footer />
-          <Sidebar /> 
+          <Sidebar />
         </div>
       )}
     </div>
