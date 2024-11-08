@@ -21,8 +21,8 @@ function About() {
           ></dotlottie-player>
         </div>
         <div className="flex flex-col gap-5 w-1/2 sm:w-full">
-          <p className="text-white">{description1 || ""}</p>
-          <p className="text-white">{description2 || ""}</p>
+          <p className="text-white text-justify">{description1 || ""}</p>
+          <p className="text-white text-justify">{description2 || ""}</p>
         </div>
       </div>
 

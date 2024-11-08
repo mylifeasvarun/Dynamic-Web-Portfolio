@@ -12,7 +12,7 @@ function Experiences() {
       <SectionTitle title="Experiences" />
 
       <div className="flex py-10 gap-10 sm:flex-col sm:items-center">
-        <div className="flex flex-col gap-10 border-l-2 border-[#135e4c82] w-1/4 sm:flex-row sm:overflow-x-scroll sm:w-full">
+        <div className="flex flex-col gap-10 border-l-2 border-[#135e4c82] w-1/3 sm:flex-row sm:overflow-x-scroll sm:w-full">
           {experiences.map((experience, index) => (
             <div
               className="cursor-pointer"
@@ -40,7 +40,7 @@ function Experiences() {
           <h1 className="text-xl text-tertiary">
             {experiences[selectedindex].company}
           </h1>
-          <p className="text-white">{experiences[selectedindex].description}</p>
+          <p className="text-white text-justify">{experiences[selectedindex].description}</p>
         </div>
       </div>
     </div>
