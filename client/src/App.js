@@ -35,13 +35,13 @@ function App() {
     if (!portfolioData) {
       getportfolioData();
     }
-  }, [portfolioData]);
+  },);
 
   useEffect(() => {
     if (reloadData) {
       getportfolioData();
     }
-  }, [reloadData]);
+  },);
 
   return (
     <BrowserRouter>
