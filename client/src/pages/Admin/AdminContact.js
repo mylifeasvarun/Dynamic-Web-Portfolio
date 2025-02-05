@@ -2,7 +2,7 @@ import React from "react";
 import { Form, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowLoading, HideLoading } from "../../redux/rootSlice";
-import axios from "axios";
+import axiosInstance from "../../axiosConfig.js";
 
 function AdminContact() {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ function AdminContact() {
   const onFinish = async (values) => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/portfolio/update-contact", {
+      const response = await axiosInstance.post("/portfolio/update-contact", {
         ...values,
         _id: portfolioData.contact._id,
       });
