@@ -2,7 +2,7 @@ import { Form, message, Modal } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HideLoading, ReloadData, ShowLoading } from "../../redux/rootSlice";
-import axios from "axios";
+import axiosInstance from "../../axiosConfig.js";
 
 function AdminProjects() {
   const { portfolioData } = useSelector((state) => state.root);
@@ -19,12 +19,12 @@ function AdminProjects() {
       dispatch(ShowLoading());
       let response;
       if (selectedItemForEdit) {
-        response = await axios.post("api/portfolio/update-project", {
+        response = await axiosInstance.post("/portfolio/update-project", {
           ...values,
           _id: selectedItemForEdit._id,
         });
       } else {
-        response = await axios.post("/api/portfolio/add-project", values);
+        response = await axiosInstance.post("/portfolio/add-project", values);
       }
 
       dispatch(HideLoading());
@@ -46,7 +46,7 @@ function AdminProjects() {
   const onDelete = async (item) => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/portfolio/delete-project", {
+      const response = await axiosInstance.post("/portfolio/delete-project", {
         _id: item._id,
       });
       dispatch(HideLoading());
