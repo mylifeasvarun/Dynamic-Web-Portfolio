@@ -20,7 +20,7 @@ function Sidebar() {
             <i className="ri-linkedin-box-fill text-gray-400 text-xl"></i>
           </a>
           <a
-            href="https://github.com/mylifeasvarun"
+            href="https://github.com/saigangasani"
             target="_blank"
             rel="noopener noreferrer"
           >
