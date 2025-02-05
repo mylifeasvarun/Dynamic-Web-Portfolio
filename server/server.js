@@ -7,18 +7,27 @@ const app = express();
 const dbconfig = require("./config/dbConfig");
 const portfolioRoute = require("./routes/portfolioRoutes");
 
-app.use(cors());
+// CORS configuration
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "production"
+        ? ["https://dynamic-web-portfolio-itcw.vercel.app"]
+        : ["http://localhost:3000"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
+// API routes
 app.use("/api/portfolio", portfolioRoute);
 
-// Serve static assets if in production
+// Serve static files in production
 if (process.env.NODE_ENV === "production") {
-  // Set static folder
-  app.use(express.static("client/build"));
-
+  app.use(express.static(path.join(__dirname, "../client/build")));
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 }
 
