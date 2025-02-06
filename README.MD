@@ -167,37 +167,6 @@ git push
   ns2.vercel-dns.com
   ```
 
-## 👨‍💻 Development Workflow
-
-1. **Create Feature Branch**
-
-```bash
-git checkout -b feature/your-feature-name
-```
-
-2. **Make Changes**
-
-- Make your code changes
-- Test locally using `npm run dev`
-
-3. **Commit Changes**
-
-```bash
-git add .
-git commit -m "Description of changes"
-```
-
-4. **Push to GitHub**
-
-```bash
-git push origin feature/your-feature-name
-```
-
-5. **Deploy**
-
-- Merge to main branch
-- Vercel will automatically deploy changes
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
