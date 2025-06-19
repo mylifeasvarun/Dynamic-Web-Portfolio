@@ -12,6 +12,7 @@ import {
 } from "./redux/rootSlice.js";
 import Admin from "./pages/Admin/Admin.js";
 import AdminLogin from "./pages/Admin/AdminLogin.js";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const { loading, portfolioData, reloadData } = useSelector(
@@ -35,13 +36,13 @@ function App() {
     if (!portfolioData) {
       getportfolioData();
     }
-  },);
+  });
 
   useEffect(() => {
     if (reloadData) {
       getportfolioData();
     }
-  },);
+  });
 
   return (
     <BrowserRouter>
@@ -51,6 +52,7 @@ function App() {
         <Route path="/admin" element={<Admin />}></Route>
         <Route path="/admin-login" element={<AdminLogin />}></Route>
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 }
