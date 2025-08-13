@@ -173,9 +173,11 @@ router.post("/delete-experience", sensitiveLimiter, async (req, res) => {
 });
 
 //Add Education
-router.post("/add-education", async (req, res) => {
+router.post("/add-education", sensitiveLimiter, async (req, res) => {
   try {
-    const education = new Education(req.body);
+    const allowedFields = ["period", "title", "institution", "coursework"];
+    const payload = pick(req.body, allowedFields);
+    const education = new Education(payload);
     await education.save();
     res.status(200).send({
       data: education,
@@ -183,17 +185,22 @@ router.post("/add-education", async (req, res) => {
       message: "Education Added Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Update Education
-router.post("/update-education", async (req, res) => {
+router.post("/update-education", sensitiveLimiter, async (req, res) => {
   try {
+    const allowedFields = ["period", "title", "institution", "coursework"];
+    const update = pick(req.body, allowedFields);
     const education = await Education.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: update },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: education,
@@ -201,12 +208,15 @@ router.post("/update-education", async (req, res) => {
       message: "Education Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Delete Education
-router.post("/delete-education", async (req, res) => {
+router.post("/delete-education", sensitiveLimiter, async (req, res) => {
   try {
     const education = await Education.findOneAndDelete({
       _id: req.body._id,
@@ -217,7 +227,10 @@ router.post("/delete-education", async (req, res) => {
       message: "Education Deleted Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
