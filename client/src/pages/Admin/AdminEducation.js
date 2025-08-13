@@ -10,7 +10,6 @@ function AdminEducation() {
   const { educations } = portfolioData;
   const [showAddEditModal, setshowAddEditModal] = React.useState(false);
   const [selectedItemForEdit, setSelectedItemForEdit] = React.useState(null);
-  const [type, setType] = React.useState("add");
 
   const onFinish = async (values) => {
     try {
@@ -25,19 +24,18 @@ function AdminEducation() {
         response = await axiosInstance.post("/portfolio/add-education", values);
       }
 
-      dispatch(HideLoading());
       if (response.data.success) {
         message.success(response.data.message);
         setshowAddEditModal(false);
         setSelectedItemForEdit(null);
-        dispatch(HideLoading());
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
       }
     } catch (error) {
-      dispatch(HideLoading());
       message.error(error.message);
+    } finally {
+      dispatch(HideLoading());
     }
   };
 
@@ -47,17 +45,17 @@ function AdminEducation() {
       const response = await axiosInstance.post("/portfolio/delete-education", {
         _id: item._id,
       });
-      dispatch(HideLoading());
+
       if (response.data.success) {
         message.success(response.data.message);
-        dispatch(HideLoading());
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
       }
     } catch (error) {
-      dispatch(HideLoading());
       message.error(error.message);
+    } finally {
+      dispatch(HideLoading());
     }
   };
 
@@ -93,7 +91,6 @@ function AdminEducation() {
                 onClick={() => {
                   setSelectedItemForEdit(education);
                   setshowAddEditModal(true);
-                  setType("edit");
                 }}
               >
                 Edit
@@ -111,7 +108,7 @@ function AdminEducation() {
         ))}
       </div>
 
-      {(type === "add" || selectedItemForEdit) && (
+      {showAddEditModal && (
         <Modal
           open={showAddEditModal}
           title={selectedItemForEdit ? "Edit Education" : "Add Education"}
