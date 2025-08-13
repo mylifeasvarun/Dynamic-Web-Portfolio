@@ -172,6 +172,55 @@ router.post("/delete-experience", sensitiveLimiter, async (req, res) => {
   }
 });
 
+//Add Education
+router.post("/add-education", async (req, res) => {
+  try {
+    const education = new Education(req.body);
+    await education.save();
+    res.status(200).send({
+      data: education,
+      success: true,
+      message: "Education Added Successfully",
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//Update Education
+router.post("/update-education", async (req, res) => {
+  try {
+    const education = await Education.findOneAndUpdate(
+      { _id: req.body._id },
+      req.body,
+      { new: true }
+    );
+    res.status(200).send({
+      data: education,
+      success: true,
+      message: "Education Updated Successfully",
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//Delete Education
+router.post("/delete-education", async (req, res) => {
+  try {
+    const education = await Education.findOneAndDelete({
+      _id: req.body._id,
+    });
+    res.status(200).send({
+      data: education,
+      success: true,
+      message: "Education Deleted Successfully",
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 //Add Project
 router.post("/add-project", sensitiveLimiter, async (req, res) => {
   try {
