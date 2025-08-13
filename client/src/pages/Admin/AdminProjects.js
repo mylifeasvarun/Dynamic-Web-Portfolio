@@ -78,8 +78,15 @@ function AdminProjects() {
       </div>
       <div className="grid grid-cols-4 gap-5 sm:grid-cols-1">
         {projects.map((project) => (
-          <div className="shadow border p-5 border-gray-300 flex flex-col items-center">
-            <img src={project.image} alt="" className="h-30 w-40 rounded" />
+          <div
+            key={project._id}
+            className="shadow border p-5 border-gray-300 flex flex-col items-center"
+          >
+            <img
+              src={project.image || null}
+              alt={project.title || "Project"}
+              className="h-30 w-40 rounded"
+            />
             <hr />
             <h1 className="text-3xl my-3">{project.title}</h1>
             <h1 className="text-center">{project.technologies}</h1>
