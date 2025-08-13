@@ -10,7 +10,6 @@ function AdminProjects() {
   const { projects } = portfolioData;
   const [showAddEditModal, setshowAddEditModal] = React.useState(false);
   const [selectedItemForEdit, setSelectedItemForEdit] = React.useState(null);
-  const [type, setType] = React.useState("add");
 
   const onFinish = async (values) => {
     try {
@@ -27,19 +26,18 @@ function AdminProjects() {
         response = await axiosInstance.post("/portfolio/add-project", values);
       }
 
-      dispatch(HideLoading());
       if (response.data.success) {
         message.success(response.data.message);
         setshowAddEditModal(false);
         setSelectedItemForEdit(null);
-        dispatch(HideLoading());
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
       }
     } catch (error) {
-      dispatch(HideLoading());
       message.error(error.message);
+    } finally {
+      dispatch(HideLoading());
     }
   };
 
@@ -49,18 +47,36 @@ function AdminProjects() {
       const response = await axiosInstance.post("/portfolio/delete-project", {
         _id: item._id,
       });
-      dispatch(HideLoading());
+
       if (response.data.success) {
         message.success(response.data.message);
-        dispatch(HideLoading());
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
       }
     } catch (error) {
-      dispatch(HideLoading());
       message.error(error.message);
+    } finally {
+      dispatch(HideLoading());
     }
+  };
+
+  const renderProjectImage = (project) => {
+    if (!project.image) {
+      return (
+        <div className="h-30 w-40 rounded bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
+          No Image
+        </div>
+      );
+    }
+
+    return (
+      <img
+        src={project.image}
+        alt={project.title || "Project"}
+        className="h-30 w-40 rounded object-cover"
+      />
+    );
   };
 
   return (
@@ -82,11 +98,7 @@ function AdminProjects() {
             key={project._id}
             className="shadow border p-5 border-gray-300 flex flex-col items-center"
           >
-            <img
-              src={project.image || null}
-              alt={project.title || "Project"}
-              className="h-30 w-40 rounded"
-            />
+            {renderProjectImage(project)}
             <hr />
             <h1 className="text-3xl my-3">{project.title}</h1>
             <h1 className="text-center">{project.technologies}</h1>
@@ -97,7 +109,6 @@ function AdminProjects() {
                 onClick={() => {
                   setSelectedItemForEdit(project);
                   setshowAddEditModal(true);
-                  setType("edit");
                 }}
               >
                 Edit
@@ -115,7 +126,7 @@ function AdminProjects() {
         ))}
       </div>
 
-      {(type === "add" || selectedItemForEdit) && (
+      {showAddEditModal && (
         <Modal
           open={showAddEditModal}
           title={selectedItemForEdit ? "Edit project" : "Add project"}
