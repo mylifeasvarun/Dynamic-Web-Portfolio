@@ -15,18 +15,15 @@ const introSchema = new mongoose.Schema({
   },
   caption: {
     type: String,
-    required: true,
   },
   description: {
     type: String,
-    required: true,
   },
 });
 
 const aboutSchema = new mongoose.Schema({
   lottieURL: {
     type: String,
-    required: true,
   },
   description1: {
     type: String,
@@ -34,11 +31,9 @@ const aboutSchema = new mongoose.Schema({
   },
   description2: {
     type: String,
-    required: true,
   },
   skills: {
     type: Array,
-    required: true,
   },
 });
 
@@ -75,7 +70,6 @@ const experienceSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
   },
 });
 
@@ -86,19 +80,15 @@ const projectsSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
   },
   image: {
     type: String,
-    required: true,
   },
   link: {
     type: String,
-    required: true,
   },
   technologies: {
     type: Array,
-    required: true,
   },
 });
 
@@ -113,7 +103,6 @@ const contactSchema = new mongoose.Schema({
   },
   mobile: {
     type: String,
-    required: true,
   },
 });
 
