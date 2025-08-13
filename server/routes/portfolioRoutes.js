@@ -9,10 +9,27 @@ const {
 } = require("../models/portfolioModel");
 
 const User = require("../models/userModel");
+const rateLimit = require("express-rate-limit");
+
+// helper to whitelist fields
+const pick = (obj, fields) =>
+  Object.fromEntries(
+    (fields || [])
+      .filter((f) => Object.prototype.hasOwnProperty.call(obj || {}, f))
+      .map((f) => [f, obj[f]])
+  );
+
+// Sensitive route limiter (stricter for writes and login)
+const sensitiveLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 //Gets All portfolio Data
 router.get("/get-portfolio-data", async (req, res) => {
-  try {                                                                       
+  try {
     const intros = await Intro.find();
     const abouts = await About.find();
     const projects = await Project.find();
@@ -29,17 +46,28 @@ router.get("/get-portfolio-data", async (req, res) => {
       educations: educations,
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Update Intro
-router.post("/update-intro", async (req, res) => {
+router.post("/update-intro", sensitiveLimiter, async (req, res) => {
   try {
+    const allowedFields = [
+      "welcomeText",
+      "firstName",
+      "lastName",
+      "caption",
+      "description",
+    ];
+    const update = pick(req.body, allowedFields);
     const intro = await Intro.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: update },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: intro,
@@ -47,17 +75,27 @@ router.post("/update-intro", async (req, res) => {
       message: "Intro Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Update About
-router.post("/update-about", async (req, res) => {
+router.post("/update-about", sensitiveLimiter, async (req, res) => {
   try {
+    const allowedFields = [
+      "lottieURL",
+      "description1",
+      "description2",
+      "skills",
+    ];
+    const update = pick(req.body, allowedFields);
     const about = await About.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: update },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: about,
@@ -65,14 +103,19 @@ router.post("/update-about", async (req, res) => {
       message: "About Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Add Experience
-router.post("/add-experience", async (req, res) => {
+router.post("/add-experience", sensitiveLimiter, async (req, res) => {
   try {
-    const experience = await Experience(req.body);
+    const allowedFields = ["title", "period", "company", "description"];
+    const payload = pick(req.body, allowedFields);
+    const experience = new Experience(payload);
     await experience.save();
     res.status(200).send({
       data: experience,
@@ -80,17 +123,22 @@ router.post("/add-experience", async (req, res) => {
       message: "Experience Added Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Update Experience
-router.post("/update-experience", async (req, res) => {
+router.post("/update-experience", sensitiveLimiter, async (req, res) => {
   try {
+    const allowedFields = ["title", "period", "company", "description"];
+    const update = pick(req.body, allowedFields);
     const experience = await Experience.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: update },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: experience,
@@ -98,12 +146,15 @@ router.post("/update-experience", async (req, res) => {
       message: "Experience Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Delete Experience
-router.post("/delete-experience", async (req, res) => {
+router.post("/delete-experience", sensitiveLimiter, async (req, res) => {
   try {
     const experience = await Experience.findOneAndDelete({
       _id: req.body._id,
@@ -114,14 +165,25 @@ router.post("/delete-experience", async (req, res) => {
       message: "Experience Deleted Successfully",
     });
   } catch (error) {
-    res.status(500).message(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Add Project
-router.post("/add-project", async (req, res) => {
+router.post("/add-project", sensitiveLimiter, async (req, res) => {
   try {
-    const project = new Project(req.body);
+    const allowedFields = [
+      "title",
+      "description",
+      "image",
+      "link",
+      "technologies",
+    ];
+    const payload = pick(req.body, allowedFields);
+    const project = new Project(payload);
     await project.save();
     res.status(200).send({
       data: project,
@@ -129,17 +191,28 @@ router.post("/add-project", async (req, res) => {
       message: "Project Added Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Update Project
-router.post("/update-project", async (req, res) => {
+router.post("/update-project", sensitiveLimiter, async (req, res) => {
   try {
+    const allowedFields = [
+      "title",
+      "description",
+      "image",
+      "link",
+      "technologies",
+    ];
+    const update = pick(req.body, allowedFields);
     const project = await Project.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: update },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: project,
@@ -147,32 +220,40 @@ router.post("/update-project", async (req, res) => {
       message: "Project Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Delete Project
-router.post("/delete-project", async (req, res) => {
+router.post("/delete-project", sensitiveLimiter, async (req, res) => {
   try {
     const project = await Project.findOneAndDelete({
       _id: req.body._id,
     });
     res.status(200).send({
-      data: Project,
+      data: project,
       success: true,
       message: "Project Deleted Successfully",
     });
   } catch (error) {
-    res.status(500).message(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
-router.post("/update-contact", async (req, res) => {
+router.post("/update-contact", sensitiveLimiter, async (req, res) => {
   try {
+    const allowedFields = ["name", "email", "mobile"];
+    const update = pick(req.body, allowedFields);
     const contact = await Contact.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: update },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: contact,
@@ -180,12 +261,15 @@ router.post("/update-contact", async (req, res) => {
       message: "Contact Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
 //Admin Login
-router.post("/admin-login", async (req, res) => {
+router.post("/admin-login", sensitiveLimiter, async (req, res) => {
   try {
     const user = await User.findOne({
       username: req.body.username,
@@ -206,7 +290,10 @@ router.post("/admin-login", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
