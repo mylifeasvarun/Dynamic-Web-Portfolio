@@ -22,7 +22,10 @@ function AdminExperiences() {
           _id: selectedItemForEdit._id,
         });
       } else {
-        response = await axiosInstance.post("/portfolio/add-experience", values);
+        response = await axiosInstance.post(
+          "/portfolio/add-experience",
+          values
+        );
       }
 
       dispatch(HideLoading());
@@ -44,9 +47,12 @@ function AdminExperiences() {
   const onDelete = async (item) => {
     try {
       dispatch(ShowLoading());
-      const response = await axiosInstance.post("/portfolio/delete-experience", {
-        _id: item._id,
-      });
+      const response = await axiosInstance.post(
+        "/portfolio/delete-experience",
+        {
+          _id: item._id,
+        }
+      );
       dispatch(HideLoading());
       if (response.data.success) {
         message.success(response.data.message);
@@ -76,7 +82,10 @@ function AdminExperiences() {
       </div>
       <div className="grid grid-cols-4 gap-5 sm:grid-cols-1">
         {experiences.map((experience) => (
-          <div className="shadow border p-5 border-gray-300">
+          <div
+            key={experience._id}
+            className="shadow border p-5 border-gray-300"
+          >
             <h1 className="text-primary text-xl">{experience.period}</h1>
             <hr />
             <h1>Role: {experience.title}</h1>
