@@ -41,8 +41,8 @@ router.post("/update-intro", async (req, res) => {
   try {
     const intro = await Intro.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: req.body },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: intro,
@@ -62,8 +62,8 @@ router.post("/update-about", async (req, res) => {
   try {
     const about = await About.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: req.body },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: about,
@@ -81,7 +81,7 @@ router.post("/update-about", async (req, res) => {
 //Add Experience
 router.post("/add-experience", async (req, res) => {
   try {
-    const experience = await Experience(req.body);
+    const experience = new Experience(req.body);
     await experience.save();
     res.status(200).send({
       data: experience,
@@ -101,8 +101,8 @@ router.post("/update-experience", async (req, res) => {
   try {
     const experience = await Experience.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: req.body },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: experience,
@@ -159,8 +159,8 @@ router.post("/update-project", async (req, res) => {
   try {
     const project = await Project.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: req.body },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: project,
@@ -198,8 +198,8 @@ router.post("/update-contact", async (req, res) => {
   try {
     const contact = await Contact.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      { $set: req.body },
+      { new: true, runValidators: true }
     );
     res.status(200).send({
       data: contact,
