@@ -65,7 +65,7 @@ router.post("/update-intro", sensitiveLimiter, async (req, res) => {
     ];
     const update = pick(req.body, allowedFields);
     const intro = await Intro.findOneAndUpdate(
-      { _id: req.body._id },
+      { _id: { $eq: req.body._id } },
       { $set: update },
       { new: true, runValidators: true }
     );
@@ -93,7 +93,7 @@ router.post("/update-about", sensitiveLimiter, async (req, res) => {
     ];
     const update = pick(req.body, allowedFields);
     const about = await About.findOneAndUpdate(
-      { _id: req.body._id },
+      { _id: { $eq: req.body._id } },
       { $set: update },
       { new: true, runValidators: true }
     );
@@ -136,7 +136,7 @@ router.post("/update-experience", sensitiveLimiter, async (req, res) => {
     const allowedFields = ["title", "period", "company", "description"];
     const update = pick(req.body, allowedFields);
     const experience = await Experience.findOneAndUpdate(
-      { _id: req.body._id },
+      { _id: { $eq: req.body._id } },
       { $set: update },
       { new: true, runValidators: true }
     );
@@ -157,7 +157,7 @@ router.post("/update-experience", sensitiveLimiter, async (req, res) => {
 router.post("/delete-experience", sensitiveLimiter, async (req, res) => {
   try {
     const experience = await Experience.findOneAndDelete({
-      _id: req.body._id,
+      _id: { $eq: req.body._id },
     });
     res.status(200).send({
       data: experience,
@@ -198,7 +198,7 @@ router.post("/update-education", sensitiveLimiter, async (req, res) => {
     const allowedFields = ["period", "title", "institution", "coursework"];
     const update = pick(req.body, allowedFields);
     const education = await Education.findOneAndUpdate(
-      { _id: req.body._id },
+      { _id: { $eq: req.body._id } },
       { $set: update },
       { new: true, runValidators: true }
     );
@@ -219,7 +219,7 @@ router.post("/update-education", sensitiveLimiter, async (req, res) => {
 router.post("/delete-education", sensitiveLimiter, async (req, res) => {
   try {
     const education = await Education.findOneAndDelete({
-      _id: req.body._id,
+      _id: { $eq: req.body._id },
     });
     res.status(200).send({
       data: education,
@@ -272,7 +272,7 @@ router.post("/update-project", sensitiveLimiter, async (req, res) => {
     ];
     const update = pick(req.body, allowedFields);
     const project = await Project.findOneAndUpdate(
-      { _id: req.body._id },
+      { _id: { $eq: req.body._id } },
       { $set: update },
       { new: true, runValidators: true }
     );
@@ -293,7 +293,7 @@ router.post("/update-project", sensitiveLimiter, async (req, res) => {
 router.post("/delete-project", sensitiveLimiter, async (req, res) => {
   try {
     const project = await Project.findOneAndDelete({
-      _id: req.body._id,
+      _id: { $eq: req.body._id },
     });
     res.status(200).send({
       data: project,
@@ -313,7 +313,7 @@ router.post("/update-contact", sensitiveLimiter, async (req, res) => {
     const allowedFields = ["name", "email", "mobile"];
     const update = pick(req.body, allowedFields);
     const contact = await Contact.findOneAndUpdate(
-      { _id: req.body._id },
+      { _id: { $eq: req.body._id } },
       { $set: update },
       { new: true, runValidators: true }
     );
