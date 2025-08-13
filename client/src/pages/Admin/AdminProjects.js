@@ -82,11 +82,17 @@ function AdminProjects() {
             key={project._id}
             className="shadow border p-5 border-gray-300 flex flex-col items-center"
           >
-            <img
-              src={project.image || null}
-              alt={project.title || "Project"}
-              className="h-30 w-40 rounded"
-            />
+            {project.image ? (
+              <img
+                src={project.image}
+                alt={project.title || "Project"}
+                className="h-30 w-40 rounded"
+              />
+            ) : (
+              <div className="h-30 w-40 rounded bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+                No image
+              </div>
+            )}
             <hr />
             <h1 className="text-3xl my-3">{project.title}</h1>
             <h1 className="text-center">{project.technologies}</h1>
