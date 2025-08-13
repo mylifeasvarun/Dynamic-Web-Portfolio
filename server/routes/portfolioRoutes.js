@@ -12,7 +12,7 @@ const User = require("../models/userModel");
 
 //Gets All portfolio Data
 router.get("/get-portfolio-data", async (req, res) => {
-  try {                                                                       
+  try {
     const intros = await Intro.find();
     const abouts = await About.find();
     const projects = await Project.find();
@@ -29,7 +29,10 @@ router.get("/get-portfolio-data", async (req, res) => {
       educations: educations,
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -47,7 +50,10 @@ router.post("/update-intro", async (req, res) => {
       message: "Intro Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -65,7 +71,10 @@ router.post("/update-about", async (req, res) => {
       message: "About Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -80,7 +89,10 @@ router.post("/add-experience", async (req, res) => {
       message: "Experience Added Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -98,7 +110,10 @@ router.post("/update-experience", async (req, res) => {
       message: "Experience Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -114,7 +129,10 @@ router.post("/delete-experience", async (req, res) => {
       message: "Experience Deleted Successfully",
     });
   } catch (error) {
-    res.status(500).message(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -129,7 +147,10 @@ router.post("/add-project", async (req, res) => {
       message: "Project Added Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -147,7 +168,10 @@ router.post("/update-project", async (req, res) => {
       message: "Project Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -158,12 +182,15 @@ router.post("/delete-project", async (req, res) => {
       _id: req.body._id,
     });
     res.status(200).send({
-      data: Project,
+      data: project,
       success: true,
       message: "Project Deleted Successfully",
     });
   } catch (error) {
-    res.status(500).message(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -180,7 +207,10 @@ router.post("/update-contact", async (req, res) => {
       message: "Contact Updated Successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
@@ -206,7 +236,10 @@ router.post("/admin-login", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
   }
 });
 
