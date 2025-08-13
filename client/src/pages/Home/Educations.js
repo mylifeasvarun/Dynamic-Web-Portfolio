@@ -2,11 +2,10 @@ import React from "react";
 import SectionTitle from "../../components/SectionTitle";
 import { useSelector } from "react-redux";
 
-function Experiences() {
+function Educations() {
   const { portfolioData } = useSelector((state) => state.root);
   const { educations } = portfolioData;
 
-  console.log(educations);
   const [selectedindex, setselectedindex] = React.useState(0);
   return (
     <div>
@@ -16,6 +15,7 @@ function Experiences() {
         <div className="flex flex-col gap-10 border-l-2 border-[#135e4c82] w-1/3 sm:flex-row sm:overflow-x-scroll sm:w-full">
           {educations.map((education, index) => (
             <div
+              key={index}
               className="cursor-pointer"
               onClick={() => {
                 setselectedindex(index);
@@ -42,9 +42,7 @@ function Experiences() {
             {educations[selectedindex].institution}
           </h1>
           <p className="text-white">
-            <span className="font-bold">
-              Relavant Course Work:{" "}
-            </span>
+            <span className="font-bold">Relevant Course Work: </span>
             {educations[selectedindex].coursework}
           </p>
         </div>
@@ -53,4 +51,4 @@ function Experiences() {
   );
 }
 
-export default Experiences;
+export default Educations;
