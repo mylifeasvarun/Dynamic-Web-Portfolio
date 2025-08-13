@@ -333,12 +333,16 @@ router.post("/update-contact", sensitiveLimiter, async (req, res) => {
 //Admin Login
 router.post("/admin-login", sensitiveLimiter, async (req, res) => {
   try {
+    const allowedFields = ["username", "password"];
+    const payload = pick(req.body, allowedFields);
+
     const user = await User.findOne({
-      username: req.body.username,
-      password: req.body.password,
+      username: { $eq: payload.username },
+      password: { $eq: payload.password },
     });
-    user.password = "";
+
     if (user) {
+      user.password = "";
       res.status(200).send({
         data: user,
         success: true,
@@ -346,7 +350,7 @@ router.post("/admin-login", sensitiveLimiter, async (req, res) => {
       });
     } else {
       res.status(200).send({
-        data: user,
+        data: null,
         success: false,
         message: "Invalid Username or Password",
       });
