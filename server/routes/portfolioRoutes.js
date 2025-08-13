@@ -10,6 +10,14 @@ const {
 
 const User = require("../models/userModel");
 
+// helper to whitelist fields
+const pick = (obj, fields) =>
+  Object.fromEntries(
+    (fields || [])
+      .filter((f) => Object.prototype.hasOwnProperty.call(obj || {}, f))
+      .map((f) => [f, obj[f]])
+  );
+
 //Gets All portfolio Data
 router.get("/get-portfolio-data", async (req, res) => {
   try {
@@ -39,9 +47,17 @@ router.get("/get-portfolio-data", async (req, res) => {
 //Update Intro
 router.post("/update-intro", async (req, res) => {
   try {
+    const allowedFields = [
+      "welcomeText",
+      "firstName",
+      "lastName",
+      "caption",
+      "description",
+    ];
+    const update = pick(req.body, allowedFields);
     const intro = await Intro.findOneAndUpdate(
       { _id: req.body._id },
-      { $set: req.body },
+      { $set: update },
       { new: true, runValidators: true }
     );
     res.status(200).send({
@@ -60,9 +76,16 @@ router.post("/update-intro", async (req, res) => {
 //Update About
 router.post("/update-about", async (req, res) => {
   try {
+    const allowedFields = [
+      "lottieURL",
+      "description1",
+      "description2",
+      "skills",
+    ];
+    const update = pick(req.body, allowedFields);
     const about = await About.findOneAndUpdate(
       { _id: req.body._id },
-      { $set: req.body },
+      { $set: update },
       { new: true, runValidators: true }
     );
     res.status(200).send({
@@ -99,9 +122,11 @@ router.post("/add-experience", async (req, res) => {
 //Update Experience
 router.post("/update-experience", async (req, res) => {
   try {
+    const allowedFields = ["title", "period", "company", "description"];
+    const update = pick(req.body, allowedFields);
     const experience = await Experience.findOneAndUpdate(
       { _id: req.body._id },
-      { $set: req.body },
+      { $set: update },
       { new: true, runValidators: true }
     );
     res.status(200).send({
@@ -157,9 +182,17 @@ router.post("/add-project", async (req, res) => {
 //Update Project
 router.post("/update-project", async (req, res) => {
   try {
+    const allowedFields = [
+      "title",
+      "description",
+      "image",
+      "link",
+      "technologies",
+    ];
+    const update = pick(req.body, allowedFields);
     const project = await Project.findOneAndUpdate(
       { _id: req.body._id },
-      { $set: req.body },
+      { $set: update },
       { new: true, runValidators: true }
     );
     res.status(200).send({
@@ -196,9 +229,11 @@ router.post("/delete-project", async (req, res) => {
 
 router.post("/update-contact", async (req, res) => {
   try {
+    const allowedFields = ["name", "email", "mobile"];
+    const update = pick(req.body, allowedFields);
     const contact = await Contact.findOneAndUpdate(
       { _id: req.body._id },
-      { $set: req.body },
+      { $set: update },
       { new: true, runValidators: true }
     );
     res.status(200).send({
