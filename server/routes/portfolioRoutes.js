@@ -9,6 +9,7 @@ const {
 } = require("../models/portfolioModel");
 
 const User = require("../models/userModel");
+const rateLimit = require("express-rate-limit");
 
 // helper to whitelist fields
 const pick = (obj, fields) =>
@@ -17,6 +18,14 @@ const pick = (obj, fields) =>
       .filter((f) => Object.prototype.hasOwnProperty.call(obj || {}, f))
       .map((f) => [f, obj[f]])
   );
+
+// Sensitive route limiter (stricter for writes and login)
+const sensitiveLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 //Gets All portfolio Data
 router.get("/get-portfolio-data", async (req, res) => {
@@ -45,7 +54,7 @@ router.get("/get-portfolio-data", async (req, res) => {
 });
 
 //Update Intro
-router.post("/update-intro", async (req, res) => {
+router.post("/update-intro", sensitiveLimiter, async (req, res) => {
   try {
     const allowedFields = [
       "welcomeText",
@@ -74,7 +83,7 @@ router.post("/update-intro", async (req, res) => {
 });
 
 //Update About
-router.post("/update-about", async (req, res) => {
+router.post("/update-about", sensitiveLimiter, async (req, res) => {
   try {
     const allowedFields = [
       "lottieURL",
@@ -102,7 +111,7 @@ router.post("/update-about", async (req, res) => {
 });
 
 //Add Experience
-router.post("/add-experience", async (req, res) => {
+router.post("/add-experience", sensitiveLimiter, async (req, res) => {
   try {
     const experience = new Experience(req.body);
     await experience.save();
@@ -120,7 +129,7 @@ router.post("/add-experience", async (req, res) => {
 });
 
 //Update Experience
-router.post("/update-experience", async (req, res) => {
+router.post("/update-experience", sensitiveLimiter, async (req, res) => {
   try {
     const allowedFields = ["title", "period", "company", "description"];
     const update = pick(req.body, allowedFields);
@@ -143,7 +152,7 @@ router.post("/update-experience", async (req, res) => {
 });
 
 //Delete Experience
-router.post("/delete-experience", async (req, res) => {
+router.post("/delete-experience", sensitiveLimiter, async (req, res) => {
   try {
     const experience = await Experience.findOneAndDelete({
       _id: req.body._id,
@@ -162,7 +171,7 @@ router.post("/delete-experience", async (req, res) => {
 });
 
 //Add Project
-router.post("/add-project", async (req, res) => {
+router.post("/add-project", sensitiveLimiter, async (req, res) => {
   try {
     const project = new Project(req.body);
     await project.save();
@@ -180,7 +189,7 @@ router.post("/add-project", async (req, res) => {
 });
 
 //Update Project
-router.post("/update-project", async (req, res) => {
+router.post("/update-project", sensitiveLimiter, async (req, res) => {
   try {
     const allowedFields = [
       "title",
@@ -209,7 +218,7 @@ router.post("/update-project", async (req, res) => {
 });
 
 //Delete Project
-router.post("/delete-project", async (req, res) => {
+router.post("/delete-project", sensitiveLimiter, async (req, res) => {
   try {
     const project = await Project.findOneAndDelete({
       _id: req.body._id,
@@ -227,7 +236,7 @@ router.post("/delete-project", async (req, res) => {
   }
 });
 
-router.post("/update-contact", async (req, res) => {
+router.post("/update-contact", sensitiveLimiter, async (req, res) => {
   try {
     const allowedFields = ["name", "email", "mobile"];
     const update = pick(req.body, allowedFields);
@@ -250,7 +259,7 @@ router.post("/update-contact", async (req, res) => {
 });
 
 //Admin Login
-router.post("/admin-login", async (req, res) => {
+router.post("/admin-login", sensitiveLimiter, async (req, res) => {
   try {
     const user = await User.findOne({
       username: req.body.username,
