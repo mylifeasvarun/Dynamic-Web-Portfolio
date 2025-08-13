@@ -113,7 +113,9 @@ router.post("/update-about", sensitiveLimiter, async (req, res) => {
 //Add Experience
 router.post("/add-experience", sensitiveLimiter, async (req, res) => {
   try {
-    const experience = new Experience(req.body);
+    const allowedFields = ["title", "period", "company", "description"];
+    const payload = pick(req.body, allowedFields);
+    const experience = new Experience(payload);
     await experience.save();
     res.status(200).send({
       data: experience,
@@ -173,7 +175,15 @@ router.post("/delete-experience", sensitiveLimiter, async (req, res) => {
 //Add Project
 router.post("/add-project", sensitiveLimiter, async (req, res) => {
   try {
-    const project = new Project(req.body);
+    const allowedFields = [
+      "title",
+      "description",
+      "image",
+      "link",
+      "technologies",
+    ];
+    const payload = pick(req.body, allowedFields);
+    const project = new Project(payload);
     await project.save();
     res.status(200).send({
       data: project,
