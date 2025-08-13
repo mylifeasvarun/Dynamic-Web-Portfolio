@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const app = express();
-const rateLimit = require("express-rate-limit");
 
 const dbconfig = require("./config/dbConfig");
 const portfolioRoute = require("./routes/portfolioRoutes");
@@ -20,18 +19,6 @@ app.use(
 );
 
 app.use(express.json());
-
-// Trust proxy when behind a load balancer / CDN
-app.set("trust proxy", 1);
-
-// Global rate limiting (applies to all routes)
-const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 300,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use(globalLimiter);
 
 // API routes
 app.use("/api/portfolio", portfolioRoute);

@@ -14,7 +14,6 @@ function Projects() {
         <div className="flex flex-col gap-10 border-l-2 border-[#135e4c82] w-1/3 sm:flex-row sm:overflow-x-scroll sm:w-full">
           {projects.map((project, index) => (
             <div
-              key={index}
               className="cursor-pointer"
               onClick={() => {
                 setselectedindex(index);
@@ -32,6 +31,7 @@ function Projects() {
             </div>
           ))}
         </div>
+
 
         <div className="flex flex-col gap-5 w-3/4 sm:items-center">
           <h1 className="text-2xl font-bold text-secondary">
