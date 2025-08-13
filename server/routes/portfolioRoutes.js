@@ -342,15 +342,12 @@ router.post("/admin-login", sensitiveLimiter, async (req, res) => {
     });
 
     if (user) {
-      user.password = "";
       res.status(200).send({
-        data: user,
         success: true,
         message: "login Successfull",
       });
     } else {
       res.status(200).send({
-        data: null,
         success: false,
         message: "Invalid Username or Password",
       });
