@@ -5,6 +5,7 @@ import AdminIntro from "./AdminIntro";
 import AdminAbout from "./AdminAbout";
 import { useSelector } from "react-redux";
 import AdminExperiences from "./AdminExperiences";
+import AdminEducation from "./AdminEducation";
 import AdminProjects from "./AdminProjects";
 import AdminContact from "./AdminContact";
 
@@ -21,16 +22,21 @@ const items = [
   },
   {
     key: "3",
+    label: "Education",
+    children: <AdminEducation />,
+  },
+  {
+    key: "4",
     label: "Experiences",
     children: <AdminExperiences />,
   },
   {
-    key: "4",
+    key: "5",
     label: "Projects",
     children: <AdminProjects />,
   },
   {
-    key: "5",
+    key: "6",
     label: "Contact",
     children: <AdminContact />,
   },

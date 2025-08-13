@@ -4,26 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { HideLoading, ReloadData, ShowLoading } from "../../redux/rootSlice";
 import axiosInstance from "../../axiosConfig.js";
 
-function AdminProjects() {
+function AdminEducation() {
   const { portfolioData } = useSelector((state) => state.root);
   const dispatch = useDispatch();
-  const { projects } = portfolioData;
+  const { educations } = portfolioData;
   const [showAddEditModal, setshowAddEditModal] = React.useState(false);
   const [selectedItemForEdit, setSelectedItemForEdit] = React.useState(null);
 
   const onFinish = async (values) => {
     try {
-      const temptechnologies = values.technologies.split(",");
-      values.technologies = temptechnologies;
       dispatch(ShowLoading());
       let response;
       if (selectedItemForEdit) {
-        response = await axiosInstance.post("/portfolio/update-project", {
+        response = await axiosInstance.post("/portfolio/update-education", {
           ...values,
           _id: selectedItemForEdit._id,
         });
       } else {
-        response = await axiosInstance.post("/portfolio/add-project", values);
+        response = await axiosInstance.post("/portfolio/add-education", values);
       }
 
       if (response.data.success) {
@@ -44,7 +42,7 @@ function AdminProjects() {
   const onDelete = async (item) => {
     try {
       dispatch(ShowLoading());
-      const response = await axiosInstance.post("/portfolio/delete-project", {
+      const response = await axiosInstance.post("/portfolio/delete-education", {
         _id: item._id,
       });
 
@@ -61,24 +59,6 @@ function AdminProjects() {
     }
   };
 
-  const renderProjectImage = (project) => {
-    if (!project.image) {
-      return (
-        <div className="h-30 w-40 rounded bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
-          No Image
-        </div>
-      );
-    }
-
-    return (
-      <img
-        src={project.image}
-        alt={project.title || "Project"}
-        className="h-30 w-40 rounded object-cover"
-      />
-    );
-  };
-
   return (
     <div>
       <div className="flex justify-end mb-3">
@@ -89,25 +69,27 @@ function AdminProjects() {
             setshowAddEditModal(true);
           }}
         >
-          Add Project
+          Add Education
         </button>
       </div>
       <div className="grid grid-cols-4 gap-5 sm:grid-cols-1">
-        {projects.map((project) => (
+        {educations.map((education) => (
           <div
-            key={project._id}
-            className="shadow border p-5 border-gray-300 flex flex-col items-center"
+            className="shadow border p-5 border-gray-300"
+            key={education._id}
           >
-            {renderProjectImage(project)}
+            <h1 className="text-primary text-xl">{education.period}</h1>
             <hr />
-            <h1 className="text-3xl my-3">{project.title}</h1>
-            <h1 className="text-center">{project.technologies}</h1>
-            <h1 className="text-center">{project.description}</h1>
+            <h1>Degree: {education.title}</h1>
+            <h1>Institution: {education.institution}</h1>
+            {education.coursework && (
+              <h1>Coursework: {education.coursework}</h1>
+            )}
             <div className="flex justify-start gap-2 mt-2">
               <button
                 className="px-2 py-2 bg-primary text-white rounded"
                 onClick={() => {
-                  setSelectedItemForEdit(project);
+                  setSelectedItemForEdit(education);
                   setshowAddEditModal(true);
                 }}
               >
@@ -116,7 +98,7 @@ function AdminProjects() {
               <button
                 className="px-2 py-2 bg-secondary text-white rounded"
                 onClick={() => {
-                  onDelete(project);
+                  onDelete(education);
                 }}
               >
                 Delete
@@ -129,7 +111,7 @@ function AdminProjects() {
       {showAddEditModal && (
         <Modal
           open={showAddEditModal}
-          title={selectedItemForEdit ? "Edit project" : "Add project"}
+          title={selectedItemForEdit ? "Edit Education" : "Add Education"}
           footer={null}
           onCancel={() => {
             setshowAddEditModal(false);
@@ -139,27 +121,20 @@ function AdminProjects() {
           <Form
             layout="vertical"
             onFinish={onFinish}
-            initialValues={{
-              ...selectedItemForEdit,
-              technologies: selectedItemForEdit?.technologies.join(" , "),
-            }}
+            initialValues={selectedItemForEdit}
           >
-            <Form.Item name="title" label="Title">
-              <input placeholder="Title"></input>
+            <Form.Item name="period" label="Period">
+              <input placeholder="Period (e.g., 2020-2024)"></input>
             </Form.Item>
-            <Form.Item name="image" label="Image URL">
-              <input placeholder="Image URL"></input>
+            <Form.Item name="title" label="Degree/Title">
+              <input placeholder="Degree or Certification Title"></input>
             </Form.Item>
-            <Form.Item name="technologies" label="Technologies">
-              <input placeholder="Technologies"></input>
+            <Form.Item name="institution" label="Institution">
+              <input placeholder="School/University Name"></input>
             </Form.Item>
-            <Form.Item name="link" label="Demo Link">
-              <input placeholder="Link"></input>
+            <Form.Item name="coursework" label="Coursework (Optional)">
+              <input placeholder="Relevant Coursework"></input>
             </Form.Item>
-            <Form.Item name="description" label="Description">
-              <textarea placeholder="Description"></textarea>
-            </Form.Item>
-
             <div className="flex justify-end">
               <button
                 className="border-primary text-primary px-5 py-2"
@@ -181,4 +156,4 @@ function AdminProjects() {
   );
 }
 
-export default AdminProjects;
+export default AdminEducation;
